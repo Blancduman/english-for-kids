@@ -1,0 +1,4 @@
+export default {
+  GAME_MODE: "GAME_MODE",
+  TRAINING_MODE: "TRAINING_MODE"
+};
