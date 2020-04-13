@@ -1,5 +1,5 @@
 import { GAME_MODE, TRAINING_MODE } from "../../constants";
-
+import "./toggle.css";
 class Toggle {
   toggle = null;
   mode = false;
