@@ -1,4 +1,4 @@
-export default {
-  GAME_MODE: "GAME_MODE",
-  TRAINING_MODE: "TRAINING_MODE"
+export const game_modes = {
+  GAME_MODE: "PLAY",
+  TRAINING_MODE: "TRAIN"
 };

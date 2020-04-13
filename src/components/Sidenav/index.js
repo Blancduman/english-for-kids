@@ -6,36 +6,38 @@ class Sidenav {
 
   constructor(items) {
     this.buttonOpen = document.createElement("span");
-    this.buttonOpen.setAttribute("style", "cursor: point;");
-    this.buttonOpen.onclick = "";
-    this.buttonOpen.textContent = "&#9776;";
+    this.buttonOpen.classList.add("sidenav__open-btn");
+    this.buttonOpen.onclick = this.openSidenav;
 
     this.sideNav = document.createElement("div");
     this.sideNav.classList.add("sidenav");
-    const close = document.createElement("a");
-    close.setAttribute("href", "javascript:void(0)");
+    const close = document.createElement("span");
     close.classList.add("sidenav__close-btn");
-    close.onclick = closeSidenav;
-    close.textContent = "&times;";
+    close.onclick = this.closeSidenav;
 
     this.sideNav.append(close);
 
     items.forEach(item => {
       const a = document.createElement("a");
-      a.setAttribute("href", item.link);
+      console.log(item.replace(" ", ""));
+      a.setAttribute(
+        "href",
+        `/category#${item.replace(/\s/g, "").toLowerCase()}`
+      );
+      a.textContent = item;
       this.sideNav.append(a);
     });
 
     return this;
   }
 
-  closeSidenav() {
+  closeSidenav = () => {
     this.sideNav.style.width = "0";
-  }
+  };
 
-  openSidenav() {
+  openSidenav = () => {
     this.sideNav.style.width = "250px";
-  }
+  };
 }
 
 export default Sidenav;

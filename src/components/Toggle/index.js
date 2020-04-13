@@ -1,4 +1,4 @@
-import { GAME_MODE, TRAINING_MODE } from "../../constants";
+import { game_modes } from "../../constants";
 import "./toggle.css";
 class Toggle {
   toggle = null;
@@ -17,11 +17,11 @@ class Toggle {
     label.append(optionContainer);
 
     const first = document.createElement("span");
-    first.innerText = "TRAIN";
+    first.innerText = game_modes.TRAINING_MODE;
     optionContainer.append(first);
 
     const second = document.createElement("span");
-    second.innerText = "PLAY";
+    second.innerText = game_modes.GAME_MODE;
     optionContainer.append(second);
 
     const a = document.createElement("a");

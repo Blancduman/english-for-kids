@@ -9,13 +9,13 @@ class Deck {
       this.cards.push(new Card(card));
     });
 
-    return this.cards;
+    return this;
   }
 
   renderDeck() {
     const deck = document.createElement("div");
     deck.classList.add("deck");
-    deck.append(cards);
+    deck.append(...this.cards);
 
     return deck;
   }
