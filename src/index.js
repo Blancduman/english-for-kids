@@ -45,4 +45,5 @@ class EnglishForKids {
 
 window.addEventListener("load", () => {
   const ek = new EnglishForKids();
+  console.log(window.location.pathname);
 });
