@@ -1,0 +1,10 @@
+.app {
+  width: 1020px;
+  margin: 0 auto;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}

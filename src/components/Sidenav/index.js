@@ -11,11 +11,11 @@ class Sidenav {
 
     this.sideNav = document.createElement("div");
     this.sideNav.classList.add("sidenav");
-    const close = document.createElement("span");
-    close.classList.add("sidenav__close-btn");
-    close.onclick = this.closeSidenav;
+    // const close = document.createElement("span");
+    // close.classList.add("sidenav__close-btn");
+    // close.onclick = this.closeSidenav;
 
-    this.sideNav.append(close);
+    // this.sideNav.append(close);
 
     items.forEach(item => {
       const a = document.createElement("a");
@@ -33,10 +33,16 @@ class Sidenav {
 
   closeSidenav = () => {
     this.sideNav.style.width = "0";
+    this.buttonOpen.classList.remove("sidenav__close-btn");
+    this.buttonOpen.classList.add("sidenav__open-btn");
+    this.buttonOpen.onclick = this.openSidenav;
   };
 
   openSidenav = () => {
     this.sideNav.style.width = "250px";
+    this.buttonOpen.classList.remove("sidenav__open-btn");
+    this.buttonOpen.classList.add("sidenav__close-btn");
+    this.buttonOpen.onclick = this.closeSidenav;
   };
 }
 

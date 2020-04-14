@@ -1,12 +1,13 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  mode: 'development',
-  entry: './src/index.js',
+  mode: "development",
+  entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'index.js',
+    path: path.resolve(__dirname, "dist"),
+    filename: "index.js"
   },
   module: {
     rules: [
@@ -14,26 +15,27 @@ module.exports = {
         test: /\.m?js$/,
         exclude: /(node_modules)/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env'],
-          },
-        },
+            presets: ["@babel/preset-env"]
+          }
+        }
       },
       {
-        test: /\.(png|svg)$/i,
-        use: ['file-loader'],
+        test: /\.(png|svg|jpg)$/i,
+        use: ["file-loader"]
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
+        use: ["style-loader", "css-loader"]
+      }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
-      inject: true,
+      template: "./src/index.html",
+      inject: true
     }),
-  ],
+    new CopyPlugin([{ from: "src/assets", to: "assets" }])
+  ]
 };

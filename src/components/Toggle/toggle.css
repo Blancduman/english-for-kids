@@ -12,6 +12,7 @@
     margin-left: 50px;
     cursor: pointer;
     width: 40px;
+    user-select: none;
   }
 
   .toggle-switch * {
@@ -95,7 +96,7 @@
   .toggle-switch > span:before {
     content: "";
     display: block;
-    width: 100%;
+    width: 130%;
     height: 100%;
     position: absolute;
     left: 50px;
@@ -125,18 +126,20 @@
   }
   /* Switch Sizes */
   .toggle-switch.large {
-    width: 60px;
-    height: 27px;
+    width: 75px;
+    height: 28px;
+    /* position: absolute; */
+    right: 50px;
   }
   .toggle-switch.large a {
     width: 27px;
   }
   .toggle-switch.large > span {
-    height: 29px;
+    height: 30px;
     line-height: 28px;
   }
   .toggle-switch.large input:checked ~ a {
-    left: 41px;
+    left: 79px;
   }
   .toggle-switch.large > span span {
     font-size: 1.1em;

@@ -9,6 +9,7 @@
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
+  font-family: Helvetica, sans-serif;
 }
 
 .sidenav a {
@@ -26,12 +27,14 @@
 }
 
 .sidenav__close-btn {
-  position: absolute;
+  /* position: absolute;
   top: 0;
   color: #818181;
   right: 25px;
   font-size: 36px;
-  margin-left: 50px;
+  margin-left: 50px; */
+  z-index: 10;
+  color: #818181;
 }
 
 .sidenav__close-btn:before {
