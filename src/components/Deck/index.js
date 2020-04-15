@@ -1,12 +1,13 @@
+import Category from "../Category";
 import Card from "../Card";
 import "./deck.css";
 
 class Deck {
   cards = [];
 
-  constructor(items) {
+  constructor(items, isCategory) {
     items.forEach(card => {
-      this.cards.push(new Card(card));
+      this.cards.push(isCategory ? new Category(card) : new Card(card));
     });
 
     return this;

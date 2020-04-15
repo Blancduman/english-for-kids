@@ -7,6 +7,26 @@ import Toggle from "./components/Toggle";
 import { game_modes } from "./constants";
 import "./main.css";
 
+function shuffle(array) {
+  let counter = array.length;
+
+  // While there are elements in the array
+  while (counter > 0) {
+    // Pick a random index
+    let index = Math.floor(Math.random() * counter);
+
+    // Decrease counter by 1
+    counter--;
+
+    // And swap the last element with it
+    let temp = array[counter];
+    array[counter] = array[index];
+    array[index] = temp;
+  }
+
+  return array;
+}
+
 class EnglishForKids {
   app = null;
   section = 0;
@@ -21,29 +41,60 @@ class EnglishForKids {
   routes = null;
 
   constructor() {
-    const app = document.querySelector(".app");
+    this.app = document.querySelector(".app");
+    this.renderMenu();
+    this.onRouteChange();
+
+    window.addEventListener("hashchange", this.onRouteChange);
+  }
+
+  onRouteChange = () => {
+    this.app.innerHTML = "";
+    console.log(window.location);
+    if (window.location.hash === "") {
+      const showCategories = categories.map((c, index) => {
+        return {
+          image: cards[index][2].image,
+          title: c,
+          link: c.replace(/\s/g, "").toLowerCase()
+        };
+      });
+      const deck = new Deck(showCategories, true);
+      this.app.append(deck.renderDeck());
+    } else if (window.location.hash.includes("category")) {
+      const category = window.location.hash.split("/").pop();
+      const index = this.categories.findIndex(
+        ca => ca.replace(/\s/g, "").toLowerCase() === category
+      );
+      if (index === -1) window.location.replace(window.location.origin);
+      this.cards = shuffle(cards[index]);
+      const showCards = this.cards.map(c => {
+        return {
+          image: c.image,
+          title: c.word,
+          translation: c.translation,
+          audioSrc: c.audioSrc
+        };
+      });
+      const deck = new Deck(showCards);
+      this.app.append(deck.renderDeck());
+    }
+  };
+
+  renderMenu() {
     const header = document.createElement("header");
-    header.classList.add("header");
-    app.append(header);
     const toggle = new Toggle(this.play);
     const sidenav = new Sidenav(this.categories);
+
+    header.classList.add("header", "app");
     header.append(sidenav.buttonOpen);
     header.append(toggle.toggle);
-    app.append(sidenav.sideNav);
-    const showCard = categories.map((c, index) => {
-      return {
-        image: cards[index][2].image,
-        title: c,
-        link: c.replace(/\s/g, "").toLowerCase(),
-        gameMode: this.play
-      };
-    });
-    const deck = new Deck(showCard);
-    app.append(deck.renderDeck());
+
+    document.body.prepend(sidenav.sideNav);
+    document.body.prepend(header);
   }
 }
 
 window.addEventListener("load", () => {
   const ek = new EnglishForKids();
-  console.log(window.location.pathname);
 });

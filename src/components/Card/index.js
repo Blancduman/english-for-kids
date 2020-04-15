@@ -3,56 +3,44 @@ import "./card.css";
 class Card {
   card = null;
 
-  constructor({ image, title, link, gameMode = false }) {
-    this.card = this.renderCard(image, title, link, gameMode);
+  constructor({ image, title, translation, audioSrc, gameMode = false }) {
+    this.card = this.renderCard(image, title, translation, audioSrc, gameMode);
 
     return this.card;
   }
 
-  hexToRgb(hex) {
-    var bigint = parseInt(hex, 16);
-    var r = (bigint >> 16) & 255;
-    var g = (bigint >> 8) & 255;
-    var b = bigint & 255;
-
-    return r + "," + g + "," + b;
-  }
-
-  getRandomColor() {
-    var letters = "0123456789ABCDEF";
-    var color = "";
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return this.hexToRgb(color);
-  }
-
-  renderCard(image, title, link, gameMode) {
-    const a = document.createElement("a");
-    a.classList.add("clickable-card");
-    a.setAttribute("href", `category/${link}`);
-    // a.append(holder);
-
+  renderCard(image, title, translation, audioSrc, gameMode) {
     const card = document.createElement("div");
-    card.classList.add(gameMode ? "game-card" : "card", "play-card");
-    card.style.backgroundImage = `url(./${image})`;
-    a.append(card);
+    card.classList.add("flip-card");
 
-    const cardMask = document.createElement("div");
-    cardMask.classList.add("card__mask");
-    cardMask.style.borderColor = `rgba(${this.getRandomColor()}, 0.3)`;
-    card.append(cardMask);
+    const img = document.createElement("img");
+    img.setAttribute("alt", title);
+    img.setAttribute("src", image);
+    img.classList.add("card__image");
 
-    const content = document.createElement("div");
-    content.classList.add("card__content");
-    cardMask.append(content);
+    card.append(img);
 
-    const header = document.createElement("h3");
-    header.classList.add("card__title");
-    header.innerText = title;
-    content.append(header);
+    const flipCardInner = document.createElement("div");
+    flipCardInner.classList.add("flip-card-inner");
+    card.append(flipCardInner);
 
-    return a;
+    const flipCardFront = document.createElement("div");
+    flipCardFront.classList.add("flip-card-front");
+    flipCardInner.append(flipCardFront);
+
+    const engTitle = document.createElement("h3");
+    engTitle.textContent = title;
+    flipCardFront.append(engTitle);
+
+    const flipCardBack = document.createElement("div");
+    flipCardBack.classList.add("flip-card-back");
+    flipCardInner.append(flipCardBack);
+
+    const rusTitle = document.createElement("h3");
+    rusTitle.textContent = translation;
+    flipCardBack.append(rusTitle);
+
+    return card;
   }
 
   switchMode(gameMode) {
