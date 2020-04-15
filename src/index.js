@@ -86,7 +86,7 @@ class EnglishForKids {
     const toggle = new Toggle(this.play);
     const sidenav = new Sidenav(this.categories);
 
-    header.classList.add("header", "app");
+    header.classList.add("header");
     header.append(sidenav.buttonOpen);
     header.append(toggle.toggle);
 

@@ -51,8 +51,8 @@
 .sidenav__close-btn,
 .sidenav__open-btn {
   z-index: 10;
-  position: absolute;
-  left: 210px;
+  /* position: absolute; */
+  /* left: 210px; */
   color: #818181;
 }
 
