@@ -1,5 +1,8 @@
 import { actions } from "./constants";
 import { categories, cards } from "./resources";
+
+const _correct = new Audio("assets/audio/correct.mp3");
+const _incorrect = new Audio("assets/audio/error.mp3");
 function shuffle(array) {
   let counter = array.length;
 
@@ -75,6 +78,7 @@ const reducer = (state = initialStore, action) => {
       shuffledArray.length = shuffledArray.length - 1;
       state.currentGame.next(shuffledArray[shuffledArray.length - 1]);
       const answers = [...state.currentGame.answers, action.payload];
+      _correct.play();
       return {
         ...state,
         currentGame: {
@@ -89,6 +93,7 @@ const reducer = (state = initialStore, action) => {
 
     case actions.INCORRECT_ANSWER: {
       const incorrectPlus = state.currentGame.incorrect + 1;
+      _incorrect.play();
       return {
         ...state,
         currentGame: {

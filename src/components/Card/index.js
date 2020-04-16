@@ -38,8 +38,10 @@ class Card {
     }
     if (getState().gameMode) {
       this.card.addEventListener("click", this.onClick);
-      if (getState().currentGame.answers.findIndex(a => a === word) !== -1) {
+      const index = getState().currentGame.answers.findIndex(a => a === word);
+      if (index !== -1) {
         this.img.classList.add("correct");
+        this.card.removeEventListener("click", this.onClick);
       }
     } else {
       this.img.classList.remove("correct");

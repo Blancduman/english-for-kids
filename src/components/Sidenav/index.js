@@ -17,13 +17,15 @@ class Sidenav {
     a.textContent = "Main Page";
     a.onclick = this.closeSidenav;
     this.sideNav.append(a);
+    const category = window.location.hash.split("/").pop();
 
     items.forEach(item => {
       const a = document.createElement("a");
-      a.setAttribute(
-        "href",
-        `#category/${item.replace(/\s/g, "").toLowerCase()}`
-      );
+      const path = item.replace(/\s/g, "").toLowerCase();
+      a.setAttribute("href", `#category/${path}`);
+      if (path === category) {
+        a.classList.add("active");
+      }
       a.textContent = item;
       a.onclick = this.closeSidenav;
       this.sideNav.append(a);
