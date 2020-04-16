@@ -8,9 +8,10 @@ class Card {
   img = null;
   word = "";
 
-  constructor({ image, word, translation, audioSrc }) {
-    this.card = this.renderCard(image, word, translation, audioSrc);
+  constructor(card) {
+    const { image, word, translation, audioSrc } = card;
     this.word = word;
+    this.card = this.renderCard(image, word, translation, audioSrc);
     return this;
   }
 
@@ -22,20 +23,7 @@ class Card {
   renderCard(image, word, translation, audioSrc) {
     this.card = document.createElement("div");
     this.audio = new Audio(audioSrc);
-    if (!getState().play) {
-      this.card.addEventListener("click", this.playAudio);
-    }
-    if (getState().gameMode) {
-      this.card.addEventListener("click", this.onClick);
-      console.log(
-        getState().currentGame.answers.findIndex(a => a === this.word)
-      );
-      if (
-        getState().currentGame.answers.findIndex(a => a === this.word) !== -1
-      ) {
-        this.img.classList.add("correct");
-      }
-    }
+
     this.card.classList.add(getState().play ? "game-card" : "flip-card");
 
     this.img = document.createElement("img");
@@ -44,6 +32,18 @@ class Card {
     this.img.classList.add("card__image");
 
     this.card.append(this.img);
+
+    if (!getState().play) {
+      this.card.addEventListener("click", this.playAudio);
+    }
+    if (getState().gameMode) {
+      this.card.addEventListener("click", this.onClick);
+      if (getState().currentGame.answers.findIndex(a => a === word) !== -1) {
+        this.img.classList.add("correct");
+      }
+    } else {
+      this.img.classList.remove("correct");
+    }
 
     const flipCardInner = document.createElement("div");
     flipCardInner.classList.add("flip-card-inner");
@@ -72,6 +72,7 @@ class Card {
     if (!getState().gameFinish) {
       if (this.word === getState().currentGame.currentCard.word) {
         dispatch({ type: actions.CORRECT_ANSWER, payload: this.word });
+        this.img.classList.add("correct");
       } else {
         dispatch({ type: actions.INCORRECT_ANSWER });
       }

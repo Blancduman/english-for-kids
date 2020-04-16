@@ -58,6 +58,6 @@
   width: 100%;
 }
 
-.correct {
-  filter: grayscale(100%);
+.card__image.correct {
+  opacity: 0.5;
 }

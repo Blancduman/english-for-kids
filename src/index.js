@@ -3,6 +3,7 @@ import Sidenav from "./components/Sidenav";
 import Deck from "./components/Deck";
 import Toggle from "./components/Toggle";
 import PlayButton from "./components/PlayButton";
+import Star from "./components/Stars";
 import { game_modes, actions } from "./constants";
 import { getState, dispatch, subscribe } from "./store";
 import "./main.css";
@@ -54,6 +55,17 @@ class EnglishForKids {
     this.deck = new Deck(getState().cards, "card");
 
     this.app.append(this.deck.renderDeck());
+
+    const starContainer = document.createElement("div");
+    starContainer.classList.add("deck");
+    this.app.append(starContainer);
+    const { correct, incorrect } = getState().currentGame;
+    if (correct !== 0) {
+      starContainer.append(...new Star(correct, "win"));
+    }
+    if (incorrect !== 0) {
+      starContainer.append(...new Star(incorrect));
+    }
   };
 
   // renderPlayButton = () => {
@@ -102,6 +114,9 @@ class EnglishForKids {
 
   onChangeToggle = value => {
     dispatch({ type: actions.CHANGE_MODE, payload: value });
+    dispatch({
+      type: actions.ABBONDED_GAME
+    });
     localStorage.setItem("play", getState().play);
     this.deck.switchMode(getState().play);
     this.playButton.switchMode(getState().play);
