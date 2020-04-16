@@ -4,13 +4,16 @@ class Toggle {
   toggle = null;
   mode = false;
 
-  constructor(checkedValue) {
+  constructor(checkedValue, onChangeToggle) {
     const label = document.createElement("label");
     label.classList.add("toggle-switch", "large");
 
     this.mode = document.createElement("input");
     this.mode.setAttribute("type", "checkbox");
-    this.mode.checked = checkedValue;
+    label.addEventListener("click", () => {
+      this.mode.checked = !this.mode.checked;
+      onChangeToggle(this.mode.checked);
+    });
     label.append(this.mode);
 
     const optionContainer = document.createElement("span");
@@ -28,10 +31,7 @@ class Toggle {
     label.append(a);
 
     this.toggle = label;
-  }
-
-  switchMode() {
-    this.mode.checked = !this.mode.checked;
+    this.mode.checked = checkedValue;
   }
 }
 

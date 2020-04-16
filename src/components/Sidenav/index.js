@@ -13,7 +13,7 @@ class Sidenav {
     this.sideNav.classList.add("sidenav");
 
     const a = document.createElement("a");
-    a.setAttribute("href", `#`);
+    a.setAttribute("href", `/#`);
     a.textContent = "Main Page";
     a.onclick = this.closeSidenav;
     this.sideNav.append(a);

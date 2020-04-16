@@ -5,6 +5,21 @@
   margin: 40px 20px;
   perspective: 1000px;
 }
+.game-card {
+  background-color: transparent;
+  width: 270px;
+  height: 180px;
+  margin: 40px 20px;
+  perspective: 1000px;
+}
+
+.game-card .flip-card-inner {
+  display: none;
+}
+
+.game-card img {
+  width: 100%;
+}
 
 .flip-card img {
   width: 100%;
@@ -41,4 +56,8 @@
   color: white; */
   transform: rotateY(180deg);
   width: 100%;
+}
+
+.correct {
+  filter: grayscale(100%);
 }

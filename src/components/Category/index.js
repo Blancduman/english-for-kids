@@ -6,7 +6,7 @@ class Category {
   constructor({ image, title, link }) {
     this.card = this.renderCard(image, title, link);
 
-    return this.card;
+    return this;
   }
 
   hexToRgb(hex) {
@@ -30,10 +30,7 @@ class Category {
   renderCard(image, title, link) {
     const a = document.createElement("a");
     a.classList.add("clickable-category");
-    a.setAttribute(
-      "href",
-      `#category/${link.replace(/\s/g, "").toLowerCase()}`
-    );
+    a.setAttribute("href", `#category/${link}`);
     // a.append(holder);
 
     const card = document.createElement("div");
@@ -58,14 +55,14 @@ class Category {
     return a;
   }
 
-  switchMode(gameMode) {
-    if (gameMode) {
-      this.card.classList.remove("game-card");
-      this.card.classList.add("card");
-    } else {
-      this.card.classList.remove("card");
-      this.card.classList.add("game-card");
-    }
+  switchMode() {
+    // if (gameMode) {
+    //   this.card.classList.remove("game-card");
+    //   this.card.classList.add("card");
+    // } else {
+    //   this.card.classList.remove("card");
+    //   this.card.classList.add("game-card");
+    // }
   }
 }
 

@@ -1,97 +1,124 @@
 import { categories, cards } from "./resources";
-import Route from "./Route";
-import Router from "./Router";
 import Sidenav from "./components/Sidenav";
 import Deck from "./components/Deck";
 import Toggle from "./components/Toggle";
-import { game_modes } from "./constants";
+import PlayButton from "./components/PlayButton";
+import { game_modes, actions } from "./constants";
+import { getState, dispatch, subscribe } from "./store";
 import "./main.css";
 
-function shuffle(array) {
-  let counter = array.length;
-
-  // While there are elements in the array
-  while (counter > 0) {
-    // Pick a random index
-    let index = Math.floor(Math.random() * counter);
-
-    // Decrease counter by 1
-    counter--;
-
-    // And swap the last element with it
-    let temp = array[counter];
-    array[counter] = array[index];
-    array[index] = temp;
-  }
-
-  return array;
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
 class EnglishForKids {
   app = null;
-  section = 0;
-  currentCard = 0;
-  play = false;
-  cards = [];
-  errors = 0;
-  endGame = false;
-  volume = 100;
-  categories = categories;
-
-  routes = null;
+  loaded = false;
+  header = null;
+  sidenav = null;
+  toggle = null;
+  deck = null;
+  // playButtonHTML = null;
+  playButton = null;
 
   constructor() {
     this.app = document.querySelector(".app");
+    // this.playButtonHTML = document.querySelector(".play-button");
+    this.playButton = new PlayButton(this.playButtonHTML);
     this.renderMenu();
     this.onRouteChange();
+    this.playButton.checkAvaliable();
+
+    subscribe(() => {
+      if (window.location.hash === "") {
+        this.renderMainPage();
+      } else if (window.location.hash.includes("category")) {
+        this.renderCategory();
+      }
+      this.playButton.checkAvaliable();
+    });
 
     window.addEventListener("hashchange", this.onRouteChange);
+    this.loaded = true;
   }
 
-  onRouteChange = () => {
+  renderMainPage = () => {
     this.app.innerHTML = "";
-    console.log(window.location);
+    this.deck = new Deck(getState().cards, "category");
+
+    this.app.append(this.deck.renderDeck());
+  };
+
+  renderCategory = () => {
+    this.app.innerHTML = "";
+    this.deck = new Deck(getState().cards, "card");
+
+    this.app.append(this.deck.renderDeck());
+  };
+
+  // renderPlayButton = () => {
+  //   this.playButtonHTML.innerHTML = "";
+  //   this.playButtonHTML.append(this.playButton.button);
+  // };
+
+  onRouteChange = () => {
     if (window.location.hash === "") {
-      const showCategories = categories.map((c, index) => {
+      const showCategories = getState().categories.map((c, index) => {
         return {
           image: cards[index][2].image,
           title: c,
           link: c.replace(/\s/g, "").toLowerCase()
         };
       });
-      const deck = new Deck(showCategories, true);
-      this.app.append(deck.renderDeck());
+
+      dispatch({
+        type: actions.SET_CARDS,
+        payload: { cards: showCategories }
+      });
+      dispatch({
+        type: actions.ABBONDED_GAME
+      });
+      this.renderMainPage();
     } else if (window.location.hash.includes("category")) {
       const category = window.location.hash.split("/").pop();
-      const index = this.categories.findIndex(
+      const index = getState().categories.findIndex(
         ca => ca.replace(/\s/g, "").toLowerCase() === category
       );
-      if (index === -1) window.location.replace(window.location.origin);
-      this.cards = shuffle(cards[index]);
-      const showCards = this.cards.map(c => {
-        return {
-          image: c.image,
-          title: c.word,
-          translation: c.translation,
-          audioSrc: c.audioSrc
-        };
+      if (index === -1) {
+        window.location.replace(window.location.origin);
+      }
+      dispatch({
+        type: actions.SET_CARDS,
+        payload: { cards: cards[index], currentCategory: index }
       });
-      const deck = new Deck(showCards);
-      this.app.append(deck.renderDeck());
+      dispatch({
+        type: actions.ABBONDED_GAME
+      });
+
+      this.renderCategory();
+      this.playButton.checkAvaliable();
     }
   };
 
+  onChangeToggle = value => {
+    dispatch({ type: actions.CHANGE_MODE, payload: value });
+    localStorage.setItem("play", getState().play);
+    this.deck.switchMode(getState().play);
+    this.playButton.switchMode(getState().play);
+  };
+
   renderMenu() {
-    const header = document.createElement("header");
-    const toggle = new Toggle(this.play);
-    const sidenav = new Sidenav(this.categories);
+    if (!this.loaded) {
+      this.header = document.createElement("header");
+      this.toggle = new Toggle(getState().play, this.onChangeToggle);
+      this.sidenav = new Sidenav(getState().categories);
 
-    header.classList.add("header");
-    header.append(sidenav.buttonOpen);
-    header.append(toggle.toggle);
-
-    document.body.prepend(sidenav.sideNav);
-    document.body.prepend(header);
+      this.header.classList.add("header");
+      this.header.append(this.sidenav.buttonOpen);
+      this.header.append(this.toggle.toggle);
+      document.body.prepend(this.sidenav.sideNav);
+      document.body.prepend(this.header);
+    }
   }
 }
 

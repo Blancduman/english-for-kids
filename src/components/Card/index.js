@@ -1,57 +1,96 @@
+import { getState, dispatch } from "../../store";
+import { actions } from "../../constants";
 import "./card.css";
 
 class Card {
   card = null;
+  audio = null;
+  img = null;
+  word = "";
 
-  constructor({ image, title, translation, audioSrc, gameMode = false }) {
-    this.card = this.renderCard(image, title, translation, audioSrc, gameMode);
-
-    return this.card;
+  constructor({ image, word, translation, audioSrc }) {
+    this.card = this.renderCard(image, word, translation, audioSrc);
+    this.word = word;
+    return this;
   }
 
-  renderCard(image, title, translation, audioSrc, gameMode) {
-    const card = document.createElement("div");
-    card.classList.add("flip-card");
+  playAudio = () => {
+    this.audio.volume = 0.5;
+    this.audio.play();
+  };
 
-    const img = document.createElement("img");
-    img.setAttribute("alt", title);
-    img.setAttribute("src", image);
-    img.classList.add("card__image");
+  renderCard(image, word, translation, audioSrc) {
+    this.card = document.createElement("div");
+    this.audio = new Audio(audioSrc);
+    if (!getState().play) {
+      this.card.addEventListener("click", this.playAudio);
+    }
+    if (getState().gameMode) {
+      this.card.addEventListener("click", this.onClick);
+      console.log(
+        getState().currentGame.answers.findIndex(a => a === this.word)
+      );
+      if (
+        getState().currentGame.answers.findIndex(a => a === this.word) !== -1
+      ) {
+        this.img.classList.add("correct");
+      }
+    }
+    this.card.classList.add(getState().play ? "game-card" : "flip-card");
 
-    card.append(img);
+    this.img = document.createElement("img");
+    this.img.setAttribute("alt", word);
+    this.img.setAttribute("src", image);
+    this.img.classList.add("card__image");
+
+    this.card.append(this.img);
 
     const flipCardInner = document.createElement("div");
     flipCardInner.classList.add("flip-card-inner");
-    card.append(flipCardInner);
+    this.card.append(flipCardInner);
 
     const flipCardFront = document.createElement("div");
     flipCardFront.classList.add("flip-card-front");
     flipCardInner.append(flipCardFront);
 
-    const engTitle = document.createElement("h3");
-    engTitle.textContent = title;
-    flipCardFront.append(engTitle);
+    const engword = document.createElement("h3");
+    engword.textContent = word;
+    flipCardFront.append(engword);
 
     const flipCardBack = document.createElement("div");
     flipCardBack.classList.add("flip-card-back");
     flipCardInner.append(flipCardBack);
 
-    const rusTitle = document.createElement("h3");
-    rusTitle.textContent = translation;
-    flipCardBack.append(rusTitle);
+    const rusword = document.createElement("h3");
+    rusword.textContent = translation;
+    flipCardBack.append(rusword);
 
-    return card;
+    return this.card;
   }
 
-  switchMode(gameMode) {
-    if (gameMode) {
-      this.card.classList.remove("game-card");
-      this.card.classList.add("card");
-    } else {
-      this.card.classList.remove("card");
-      this.card.classList.add("game-card");
+  onClick = () => {
+    if (!getState().gameFinish) {
+      if (this.word === getState().currentGame.currentCard.word) {
+        dispatch({ type: actions.CORRECT_ANSWER, payload: this.word });
+      } else {
+        dispatch({ type: actions.INCORRECT_ANSWER });
+      }
     }
-  }
+  };
+
+  switchMode = () => {
+    if (getState().play) {
+      this.card.classList.remove("flip-card");
+      this.card.classList.add("game-card");
+      this.card.removeEventListener("click", this.playAudio);
+      this.card.addEventListener("click", this.onClick);
+    } else {
+      this.card.classList.remove("game-card");
+      this.card.classList.add("flip-card");
+      this.card.removeEventListener("click", this.onClick);
+      this.card.addEventListener("click", this.playAudio);
+    }
+  };
 }
 
 export default Card;

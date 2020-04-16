@@ -1,13 +1,14 @@
 import Category from "../Category";
 import Card from "../Card";
+import { getState } from "../../store";
 import "./deck.css";
 
 class Deck {
   cards = [];
 
-  constructor(items, isCategory) {
+  constructor(items, type) {
     items.forEach(card => {
-      this.cards.push(isCategory ? new Category(card) : new Card(card));
+      this.cards.push(type === "card" ? new Card(card) : new Category(card));
     });
 
     return this;
@@ -16,13 +17,14 @@ class Deck {
   renderDeck() {
     const deck = document.createElement("div");
     deck.classList.add("deck");
-    deck.append(...this.cards);
+    const _cards = this.cards.map(c => c.card);
+    deck.append(..._cards);
 
     return deck;
   }
 
-  switchMode(gameMode) {
-    this.cards.forEach(card => card.switchMode(gameMode));
+  switchMode() {
+    this.cards.forEach(card => card.switchMode());
   }
 }
 

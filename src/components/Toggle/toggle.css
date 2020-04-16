@@ -130,6 +130,7 @@
     height: 28px;
     /* position: absolute; */
     right: 50px;
+    margin-right: 0;
   }
   .toggle-switch.large a {
     width: 27px;
