@@ -45,7 +45,7 @@ class Statistics {
     this.table.append(...lines);
     return this.table;
   }
-  sortTable(column, way) {
+  sortTable(column, way, numberical = false) {
     var tabl, rows, switching, i, x, y, shouldSwitch;
     tabl = document.querySelector(".statistics");
     switching = true;
@@ -65,19 +65,30 @@ class Statistics {
         x = rows[i].getElementsByTagName("TD")[column];
         y = rows[i + 1].getElementsByTagName("TD")[column];
         //check if the two rows should switch place:
-        if (
-          x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase() &&
-          way === "a"
-        ) {
-          //if so, mark as a switch and break the loop:
-          shouldSwitch = true;
-          break;
-        } else if (
-          x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase() &&
-          way === "d"
-        ) {
-          shouldSwitch = true;
-          break;
+        if (numberical) {
+          if (Number(x.innerHTML) > Number(y.innerHTML) && way === "a") {
+            shouldSwitch = true;
+            break;
+          }
+          if (Number(x.innerHTML) < Number(y.innerHTML) && way === "d") {
+            shouldSwitch = true;
+            break;
+          }
+        } else {
+          if (
+            x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase() &&
+            way === "a"
+          ) {
+            //if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          } else if (
+            x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase() &&
+            way === "d"
+          ) {
+            shouldSwitch = true;
+            break;
+          }
         }
       }
       if (shouldSwitch) {
@@ -111,37 +122,37 @@ class Statistics {
     hWord.textContent = "Word";
     hWord.addEventListener("click", () => {
       fWord = rotation(fWord);
-      this.sortTable(0, rotation(fWord));
+      this.sortTable(0, fWord);
     });
     const hTranslation = document.createElement("th");
     hTranslation.textContent = "Translation";
     hTranslation.addEventListener("click", () => {
       fTranslation = rotation(fTranslation);
-      this.sortTable(1, rotation(fTranslation));
+      this.sortTable(1, fTranslation);
     });
     const hAmountClicks = document.createElement("th");
     hAmountClicks.textContent = "Clicks";
     hAmountClicks.addEventListener("click", () => {
       fClicks = rotation(fClicks);
-      this.sortTable(2, rotation(fClicks));
+      this.sortTable(2, fClicks, true);
     });
     const hGuessed = document.createElement("th");
     hGuessed.textContent = "Guessed";
     hGuessed.addEventListener("click", () => {
       fGuessed = rotation(fGuessed);
-      this.sortTable(3, rotation(fGuessed));
+      this.sortTable(3, fGuessed, true);
     });
     const hMistakes = document.createElement("th");
     hMistakes.textContent = "Mistakes";
     hMistakes.addEventListener("click", () => {
       fMistakes = rotation(fMistakes);
-      this.sortTable(4, rotation(fMistakes));
+      this.sortTable(4, fMistakes, true);
     });
     const hProcentMistakes = document.createElement("th");
     hProcentMistakes.textContent = "%";
     hProcentMistakes.addEventListener("click", () => {
       fProcent = rotation(fProcent);
-      this.sortTable(5, fProcent);
+      this.sortTable(5, fProcent, true);
     });
     header.append(
       hWord,

@@ -8,10 +8,12 @@ class Card {
   img = null;
   word = "";
   rotator = null;
+  category = "";
 
-  constructor(card) {
+  constructor(card, category) {
     const { image, word, translation, audioSrc } = card;
     this.word = word;
+    this.category = category;
     this.card = this.renderCard(image, word, translation, audioSrc);
     return this;
   }
@@ -19,6 +21,10 @@ class Card {
   playAudio = () => {
     this.audio.volume = 0.5;
     this.audio.play();
+    dispatch({
+      type: actions.STATISTIC_PLUS_CLICKED,
+      payload: { word: this.word, category: this.category }
+    });
   };
 
   renderCard(image, word, translation, audioSrc) {
@@ -88,10 +94,16 @@ class Card {
   onClick = () => {
     if (!getState().gameFinish) {
       if (this.word === getState().currentGame.currentCard.word) {
-        dispatch({ type: actions.CORRECT_ANSWER, payload: this.word });
+        dispatch({
+          type: actions.CORRECT_ANSWER,
+          payload: { word: this.word, category: this.category }
+        });
         this.img.classList.add("correct");
       } else {
-        dispatch({ type: actions.INCORRECT_ANSWER });
+        dispatch({
+          type: actions.INCORRECT_ANSWER,
+          payload: { word: this.word, category: this.category }
+        });
       }
     }
   };

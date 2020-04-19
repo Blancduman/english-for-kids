@@ -6,9 +6,11 @@ import "./deck.css";
 class Deck {
   cards = [];
 
-  constructor(items, type) {
+  constructor(items, type, category) {
     items.forEach(card => {
-      this.cards.push(type === "card" ? new Card(card) : new Category(card));
+      this.cards.push(
+        type === "card" ? new Card(card, category) : new Category(card)
+      );
     });
 
     return this;

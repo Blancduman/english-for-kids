@@ -20,6 +20,7 @@ class EnglishForKids {
   sidenav = null;
   toggle = null;
   deck = null;
+  currentCategory = "";
   // playButtonHTML = null;
   playButton = null;
 
@@ -39,10 +40,20 @@ class EnglishForKids {
         this.renderCategory();
       }
       this.playButton.checkAvaliable();
+      this.saveLocal(getState());
     });
 
     window.addEventListener("hashchange", this.onRouteChange);
     this.loaded = true;
+  }
+
+  saveLocal(obj) {
+    // Object.keys(obj).forEach(k => {
+    //   localStorage.setItem(k, obj[k]);
+    // });
+    localStorage.setItem("play", JSON.stringify(obj.play));
+    localStorage.setItem("gameMode", JSON.stringify(obj.gameMode));
+    localStorage.setItem("statistics", JSON.stringify(obj.statistics));
   }
 
   renderMainPage = () => {
@@ -54,7 +65,7 @@ class EnglishForKids {
 
   renderCategory = () => {
     this.app.innerHTML = "";
-    this.deck = new Deck(getState().cards, "card");
+    this.deck = new Deck(getState().cards, "card", this.currentCategory);
 
     this.app.append(this.deck.renderDeck());
 
@@ -96,9 +107,13 @@ class EnglishForKids {
       this.renderMainPage();
     } else if (window.location.hash.includes("category")) {
       const category = window.location.hash.split("/").pop();
-      const index = getState().categories.findIndex(
-        ca => ca.replace(/\s/g, "").toLowerCase() === category
-      );
+      const index = getState().categories.findIndex(ca => {
+        if (ca.replace(/\s/g, "").toLowerCase() === category) {
+          this.currentCategory = ca;
+          return true;
+        }
+        return false;
+      });
       if (index === -1) {
         window.location.replace(window.location.origin);
       }

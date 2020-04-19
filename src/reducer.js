@@ -54,19 +54,35 @@ const initialStatistic = () => {
 };
 
 const initialStore = {
-  play: localStorage.getItem("play") === "true" ? true : false,
-  gameMode: false,
+  play: JSON.parse(localStorage.getItem("play")) === "true" ? true : false,
+  gameMode:
+    JSON.parse(localStorage.getItem("gameMode")) === "true" ? true : false,
   categories: categories,
   cards: [],
   currentGame: initialCurrentGame,
   currentCategory: null,
   gameFinish: false,
-  statistics: localStorage.getItem("statistics") || initialStatistic()
+  statistics:
+    JSON.parse(localStorage.getItem("statistics")) || initialStatistic()
 };
 const reducer = (state = initialStore, action) => {
   switch (action.type) {
+    case actions.STATISTIC_PLUS_CLICKED: {
+      const newStatistic = state.statistics[action.payload.category].map(w => {
+        if (w.word === action.payload.word) {
+          w.train_mode.amount_clicks += 1;
+        }
+        return w;
+      });
+      return {
+        ...state,
+        statistics: {
+          ...state.statistics,
+          [action.payload.category]: newStatistic
+        }
+      };
+    }
     case actions.FINISH_GAME: {
-      console.log("FINISHED_GAME");
       return {
         ...state,
         gameFinish: true,
@@ -98,7 +114,14 @@ const reducer = (state = initialStore, action) => {
       const shuffledArray = state.currentGame.questions;
       shuffledArray.length = shuffledArray.length - 1;
       state.currentGame.next(shuffledArray[shuffledArray.length - 1]);
-      const answers = [...state.currentGame.answers, action.payload];
+      const answers = [...state.currentGame.answers, action.payload.word];
+      const newStatistic = state.statistics[action.payload.category].map(w => {
+        if (w.word === action.payload.word) {
+          w.game_mode.guessed += 1;
+          w.game_mode.tryes += 1;
+        }
+        return w;
+      });
       _correct.play();
       return {
         ...state,
@@ -108,18 +131,33 @@ const reducer = (state = initialStore, action) => {
           questions: shuffledArray,
           currentCard: shuffledArray[shuffledArray.length - 1],
           answers: answers
+        },
+        statistics: {
+          ...state.statistics,
+          [action.payload.category]: newStatistic
         }
       };
     }
 
     case actions.INCORRECT_ANSWER: {
       const incorrectPlus = state.currentGame.incorrect + 1;
+      const newStatistic = state.statistics[action.payload.category].map(w => {
+        if (w.word === action.payload.word) {
+          w.game_mode.mistakes += 1;
+          w.game_mode.tryes += 1;
+        }
+        return w;
+      });
       _incorrect.play();
       return {
         ...state,
         currentGame: {
           ...state.currentGame,
           incorrect: incorrectPlus
+        },
+        statistics: {
+          ...state.statistics,
+          [action.payload.category]: newStatistic
         }
       };
     }
