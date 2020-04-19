@@ -138,8 +138,7 @@ class EnglishForKids {
       this.table = new Statistics();
       this.table.changeColor();
       this.app.append(this.table.table);
-      this.app.append(this.table.reset);
-      this.app.append(this.table.hard);
+      this.app.append(this.table.buttonContainer);
       document.title = "Statistic";
     } else if (window.location.hash.includes("complicate")) {
       document.title = "This words are complicate for my boi, keep working!";

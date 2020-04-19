@@ -6,10 +6,11 @@ class Statistics {
   table = null;
   reset = null;
   hard = null;
+  buttonContainer = null;
   constructor() {
     this.table = document.createElement("table");
     this.table.classList.add("statistics");
-    this.changeColor();
+
     this.table.append(this.renderHeaders());
     const lines = [];
     const { statistics } = getState();
@@ -47,13 +48,18 @@ class Statistics {
       });
     }
     this.table.append(...lines);
+    this.buttonContainer = document.createElement("div");
+    this.buttonContainer.classList.add("button-container");
     this.reset = document.createElement("button");
+    this.reset.classList.add("statistic-button");
     this.reset.textContent = "Reset";
     this.reset.addEventListener("click", () => {
       localStorage.clear();
       window.location.replace(window.location.origin);
     });
+    this.buttonContainer.append(this.reset);
     this.hard = document.createElement("button");
+    this.hard.classList.add("statistic-button");
     this.hard.textContent = "Repeat difficult words";
     this.hard.addEventListener("click", () => {
       // window.location.hash.replace("complicate");
@@ -61,6 +67,8 @@ class Statistics {
       tmp.setAttribute("href", "/#complicate");
       tmp.click();
     });
+    this.buttonContainer.append(this.hard);
+    this.changeColor();
     return this;
   }
 
@@ -68,9 +76,17 @@ class Statistics {
     if (getState().play) {
       this.table.classList.remove("notplay");
       this.table.classList.add("play");
+      this.reset.classList.add("button-play");
+      this.hard.classList.add("button-play");
+      this.reset.classList.remove("button-notplay");
+      this.hard.classList.remove("button-notplay");
     } else {
       this.table.classList.add("notplay");
       this.table.classList.remove("play");
+      this.reset.classList.remove("button-play");
+      this.hard.classList.remove("button-play");
+      this.reset.classList.add("button-notplay");
+      this.hard.classList.add("button-notplay");
     }
   };
   sortTable(column, way, numberical = false) {
