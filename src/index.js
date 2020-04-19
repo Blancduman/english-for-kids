@@ -93,6 +93,7 @@ class EnglishForKids {
 
   onRouteChange = () => {
     this.app.innerHTML = "";
+    if (this.sidenav) this.sidenav.pathChanged();
     if (window.location.hash === "") {
       const showCategories = getState().categories.map((c, index) => {
         return {

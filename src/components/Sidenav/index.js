@@ -16,10 +16,10 @@ class Sidenav {
     const category = window.location.hash.split("/").pop();
     const a = document.createElement("a");
     a.setAttribute("href", `/#`);
-    a.textContent = "Main Page";
-    if (category === "") {
+    if ("" === category) {
       a.classList.add("active");
     }
+    a.textContent = "Main Page";
     a.onclick = this.closeSidenav;
     this.sideNav.append(a);
 
@@ -48,6 +48,25 @@ class Sidenav {
     return this;
   }
 
+  pathChanged = () => {
+    const as = this.sideNav.querySelectorAll("a");
+    as.forEach(el => el.classList.remove("active"));
+    const category = window.location.hash.split("/").pop();
+    if (category === "") {
+      as[0].classList.add("active");
+    } else if (as[as.length - 1].getAttribute("href").slice(2) === category) {
+      as[as.length - 1].classList.add("active");
+    } else {
+      for (let i = 1; i < as.length - 1; i++) {
+        const path = as[i].getAttribute("href").slice(10);
+        if (path === category) {
+          as[i].classList.add("active");
+          break;
+        }
+      }
+    }
+  };
+
   changeColor = () => {
     if (getState().play) {
       this.sideNav.classList.remove("green");
@@ -59,11 +78,11 @@ class Sidenav {
   };
 
   closeSidenav = e => {
-    Array.from(this.sideNav.querySelectorAll("a")).forEach(a => {
-      if (e.target === a) {
-        a.classList.add("active");
-      } else a.classList.remove("active");
-    });
+    // Array.from(this.sideNav.querySelectorAll("a")).forEach(a => {
+    //   if (e.target === a) {
+    //     a.classList.add("active");
+    //   } else a.classList.remove("active");
+    // });
     this.sideNav.style.width = "0";
     this.buttonOpen.classList.remove("sidenav__close-btn");
     this.buttonOpen.classList.add("sidenav__open-btn");
