@@ -7,6 +7,7 @@ class Card {
   audio = null;
   img = null;
   word = "";
+  rotator = null;
 
   constructor(card) {
     const { image, word, translation, audioSrc } = card;
@@ -25,6 +26,19 @@ class Card {
     this.audio = new Audio(audioSrc);
 
     this.card.classList.add(getState().play ? "game-card" : "flip-card");
+
+    this.card.addEventListener("mouseover", () => {
+      // setTimeout(() => {
+      clearTimeout(this.rotator);
+      flipCardInner.classList.add("rotation");
+      // }, 1000);
+    });
+
+    this.card.addEventListener("mouseleave", () => {
+      this.rotator = setTimeout(() => {
+        flipCardInner.classList.remove("rotation");
+      }, 800);
+    });
 
     this.img = document.createElement("img");
     this.img.setAttribute("alt", word);
@@ -49,6 +63,7 @@ class Card {
 
     const flipCardInner = document.createElement("div");
     flipCardInner.classList.add("flip-card-inner");
+    // flipCardInner.addEventListener('mouseover')
     this.card.append(flipCardInner);
 
     const flipCardFront = document.createElement("div");

@@ -6,6 +6,7 @@ import PlayButton from "./components/PlayButton";
 import Star from "./components/Stars";
 import { game_modes, actions } from "./constants";
 import { getState, dispatch, subscribe } from "./store";
+import Statistics from "./components/Statistics";
 import "./main.css";
 
 function getRandomArbitrary(min, max) {
@@ -31,6 +32,7 @@ class EnglishForKids {
     this.playButton.checkAvaliable();
 
     subscribe(() => {
+      this.renderMenu();
       if (window.location.hash === "") {
         this.renderMainPage();
       } else if (window.location.hash.includes("category")) {
@@ -57,7 +59,7 @@ class EnglishForKids {
     this.app.append(this.deck.renderDeck());
 
     const starContainer = document.createElement("div");
-    starContainer.classList.add("deck");
+    starContainer.classList.add("deck", "stars");
     this.app.append(starContainer);
     const { correct, incorrect } = getState().currentGame;
     if (correct !== 0) {
@@ -74,6 +76,7 @@ class EnglishForKids {
   // };
 
   onRouteChange = () => {
+    this.app.innerHTML = "";
     if (window.location.hash === "") {
       const showCategories = getState().categories.map((c, index) => {
         return {
@@ -108,7 +111,10 @@ class EnglishForKids {
       });
 
       this.renderCategory();
+    } else if (window.location.hash.includes("statistics")) {
       this.playButton.checkAvaliable();
+      const table = new Statistics();
+      this.app.append(table);
     }
   };
 
@@ -118,7 +124,7 @@ class EnglishForKids {
       type: actions.ABBONDED_GAME
     });
     localStorage.setItem("play", getState().play);
-    this.deck.switchMode(getState().play);
+    if (this.deck !== null) this.deck.switchMode(getState().play);
     this.playButton.switchMode(getState().play);
   };
 

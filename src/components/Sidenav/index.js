@@ -12,12 +12,15 @@ class Sidenav {
     this.sideNav = document.createElement("div");
     this.sideNav.classList.add("sidenav");
 
+    const category = window.location.hash.split("/").pop();
     const a = document.createElement("a");
     a.setAttribute("href", `/#`);
     a.textContent = "Main Page";
+    if (category === "") {
+      a.classList.add("active");
+    }
     a.onclick = this.closeSidenav;
     this.sideNav.append(a);
-    const category = window.location.hash.split("/").pop();
 
     items.forEach(item => {
       const a = document.createElement("a");
@@ -31,10 +34,24 @@ class Sidenav {
       this.sideNav.append(a);
     });
 
+    const statistic = document.createElement("a");
+    statistic.setAttribute("href", `/#statistics`);
+    statistic.textContent = "Statistics";
+    if (category === "statistics") {
+      statistic.classList.add("active");
+    }
+    statistic.onclick = this.closeSidenav;
+    this.sideNav.append(statistic);
+
     return this;
   }
 
-  closeSidenav = () => {
+  closeSidenav = e => {
+    Array.from(this.sideNav.querySelectorAll("a")).forEach(a => {
+      if (e.target === a) {
+        a.classList.add("active");
+      } else a.classList.remove("active");
+    });
     this.sideNav.style.width = "0";
     this.buttonOpen.classList.remove("sidenav__close-btn");
     this.buttonOpen.classList.add("sidenav__open-btn");

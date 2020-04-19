@@ -2,7 +2,8 @@
   "name": "webpack-example",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --watch"
+    "start": "webpack-dev-server --watch --open",
+    "build": "webpack"
   },
   "author": "Blancduman",
   "license": "MIT",

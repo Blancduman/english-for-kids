@@ -9,11 +9,16 @@
   display: flex;
   justify-content: space-between;
 }
+.stars {
+  overflow: hidden;
+  height: 60px;
+}
 
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 100; /* Sit on top */
+  text-align: center;
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
@@ -30,7 +35,7 @@
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 50%;
 }
 
 /* The Close Button */

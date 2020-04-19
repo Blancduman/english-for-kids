@@ -32,6 +32,27 @@ const initialCurrentGame = {
   next: null
 };
 
+const initialStatistic = () => {
+  let statistic = {};
+  for (let i = 0; i < categories.length; i++) {
+    statistic[categories[i]] = cards[i].map(card => {
+      return {
+        word: card.word,
+        translation: card.translation,
+        train_mode: {
+          amount_clicks: 0
+        },
+        game_mode: {
+          guessed: 0,
+          mistakes: 0,
+          tryes: 0
+        }
+      };
+    });
+  }
+  return statistic;
+};
+
 const initialStore = {
   play: localStorage.getItem("play") === "true" ? true : false,
   gameMode: false,
@@ -40,7 +61,7 @@ const initialStore = {
   currentGame: initialCurrentGame,
   currentCategory: null,
   gameFinish: false,
-  statistics: localStorage.getItem("statistic") || null
+  statistics: localStorage.getItem("statistics") || initialStatistic()
 };
 const reducer = (state = initialStore, action) => {
   switch (action.type) {
