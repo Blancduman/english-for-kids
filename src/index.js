@@ -23,13 +23,14 @@ class EnglishForKids {
   currentCategory = "";
   // playButtonHTML = null;
   playButton = null;
+  table = null;
 
   constructor() {
     this.app = document.querySelector(".app");
     // this.playButtonHTML = document.querySelector(".play-button");
     this.playButton = new PlayButton(this.playButtonHTML);
-    this.renderMenu();
     this.onRouteChange();
+    this.renderMenu();
     this.playButton.checkAvaliable();
 
     subscribe(() => {
@@ -134,10 +135,11 @@ class EnglishForKids {
       this.renderCategory();
     } else if (window.location.hash.includes("statistics")) {
       this.playButton.checkAvaliable();
-      const table = new Statistics();
-      this.app.append(table.table);
-      this.app.append(table.reset);
-      this.app.append(table.hard);
+      this.table = new Statistics();
+      this.table.changeColor();
+      this.app.append(this.table.table);
+      this.app.append(this.table.reset);
+      this.app.append(this.table.hard);
       document.title = "Statistic";
     } else if (window.location.hash.includes("complicate")) {
       document.title = "This words are complicate for my boi, keep working!";
@@ -149,8 +151,7 @@ class EnglishForKids {
           const {
             word,
             translation,
-            train_mode: { amount_clicks },
-            game_mode: { guessed, mistakes, tryes }
+            game_mode: { mistakes, tryes }
           } = st;
           const lCard = {
             word,
@@ -222,6 +223,8 @@ class EnglishForKids {
     localStorage.setItem("play", getState().play);
     if (this.deck !== null) this.deck.switchMode(getState().play);
     this.playButton.switchMode(getState().play);
+    this.sidenav.changeColor();
+    if (this.table) this.table.changeColor();
   };
 
   renderMenu() {

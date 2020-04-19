@@ -9,6 +9,7 @@ class Statistics {
   constructor() {
     this.table = document.createElement("table");
     this.table.classList.add("statistics");
+    this.changeColor();
     this.table.append(this.renderHeaders());
     const lines = [];
     const { statistics } = getState();
@@ -22,6 +23,7 @@ class Statistics {
           game_mode: { guessed, mistakes, tryes }
         } = st;
         const tdWord = document.createElement("td");
+        tdWord.classList.add("fixed-side");
         tdWord.textContent = word;
         const tdTrainslation = document.createElement("td");
         tdTrainslation.textContent = translation;
@@ -61,6 +63,16 @@ class Statistics {
     });
     return this;
   }
+
+  changeColor = () => {
+    if (getState().play) {
+      this.table.classList.remove("notplay");
+      this.table.classList.add("play");
+    } else {
+      this.table.classList.add("notplay");
+      this.table.classList.remove("play");
+    }
+  };
   sortTable(column, way, numberical = false) {
     var tabl, rows, switching, i, x, y, shouldSwitch;
     tabl = document.querySelector(".statistics");

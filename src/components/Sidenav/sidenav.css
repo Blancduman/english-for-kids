@@ -5,18 +5,24 @@
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
   font-family: Helvetica, sans-serif;
 }
 
+.green {
+  background: linear-gradient(40deg, #00bf82, #0099ae);
+}
+.greenwhatisyourproblemgreen {
+  background: linear-gradient(40deg, #ffd86f, #fc6262);
+}
+
 .sidenav a {
   margin: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: #f1f1f1;
   display: block;
   transition: 0.3s;
   width: 160px;
@@ -35,7 +41,7 @@
 }
 
 .sidenav a:hover {
-  color: #f1f1f1;
+  color: #fff;
   /* border-bottom-width: 1px; */
 }
 
@@ -43,7 +49,19 @@
   content: "";
   width: 160px;
   height: 2px;
-  background-color: #f1f1f1;
+  background-color: #fff;
+  transition: 0.3s linear;
+  display: block;
+}
+
+.sidenav a.active:hover {
+  color: #ffd86f;
+}
+.sidenav a.active:after {
+  content: "";
+  width: 160px;
+  height: 2px;
+  background-color: #ffd86f;
   transition: 0.3s linear;
   display: block;
 }
@@ -78,5 +96,25 @@
 }
 
 a.active {
-  color: red;
+  color: #ffd86f;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
 }

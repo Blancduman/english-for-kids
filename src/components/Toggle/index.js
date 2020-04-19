@@ -1,4 +1,5 @@
 import { game_modes } from "../../constants";
+import { getState } from "../../store";
 import "./toggle.css";
 class Toggle {
   toggle = null;
@@ -10,6 +11,7 @@ class Toggle {
 
     this.mode = document.createElement("input");
     this.mode.setAttribute("type", "checkbox");
+    this.mode.checked = getState().play;
     label.addEventListener("click", () => {
       this.mode.checked = !this.mode.checked;
       onChangeToggle(this.mode.checked);
@@ -31,7 +33,6 @@ class Toggle {
     label.append(a);
 
     this.toggle = label;
-    this.mode.checked = checkedValue;
   }
 }
 

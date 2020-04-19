@@ -54,7 +54,7 @@ const initialStatistic = () => {
 };
 
 const initialStore = {
-  play: JSON.parse(localStorage.getItem("play")) === "true" ? true : false,
+  play: JSON.parse(localStorage.getItem("play")) ? true : false,
   gameMode:
     JSON.parse(localStorage.getItem("gameMode")) === "true" ? true : false,
   categories: categories,

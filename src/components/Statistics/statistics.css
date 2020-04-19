@@ -2,7 +2,8 @@
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
-
+  min-width: 480px;
+  max-width: 650px;
   margin: 0 auto;
 }
 
@@ -10,6 +11,12 @@
 .statistics th {
   border: 1px solid #ddd;
   padding: 8px;
+}
+.statistics.play th {
+  background: linear-gradient(40deg, #ffd86f, #fc6262);
+}
+.statistics.notplay th {
+  background: linear-gradient(40deg, #00bf82, #0099ae);
 }
 
 .statistics tr:nth-child(even) {
@@ -24,6 +31,25 @@
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #4caf50;
   color: white;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 450px) {
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
 }

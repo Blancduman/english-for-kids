@@ -1,6 +1,8 @@
 export const categories = [
   "Action (set A)",
   "Action (set B)",
+  "Action (set C)",
+  "Adjective",
   "Animal (set A)",
   "Animal (set B)",
   "Clothes",
@@ -105,6 +107,106 @@ export const cards = [
       translation: "плавать",
       image: "assets/img/swim.jpg",
       audioSrc: "assets/audio/swim.mp3"
+    }
+  ],
+  [
+    {
+      word: "argue",
+      translation: "спорить",
+      image: "assets/img/argue.jpg",
+      audioSrc: "assets/audio/argue.mp3"
+    },
+    {
+      word: "build",
+      translation: "строить",
+      image: "assets/img/build.jpg",
+      audioSrc: "assets/audio/build.mp3"
+    },
+    {
+      word: "carry",
+      translation: "нести",
+      image: "assets/img/carry.jpg",
+      audioSrc: "assets/audio/carry.mp3"
+    },
+    {
+      word: "catch",
+      translation: "ловить",
+      image: "assets/img/catch.jpg",
+      audioSrc: "assets/audio/catch.mp3"
+    },
+    {
+      word: "drive",
+      translation: "водить машину",
+      image: "assets/img/drive.jpg",
+      audioSrc: "assets/audio/drive.mp3"
+    },
+    {
+      word: "drop",
+      translation: "падать",
+      image: "assets/img/drop.jpg",
+      audioSrc: "assets/audio/drop.mp3"
+    },
+    {
+      word: "pull",
+      translation: "тянуть",
+      image: "assets/img/pull.jpg",
+      audioSrc: "assets/audio/pull.mp3"
+    },
+    {
+      word: "push",
+      translation: "толкать",
+      image: "assets/img/push.jpg",
+      audioSrc: "assets/audio/push.mp3"
+    }
+  ],
+  [
+    {
+      word: "big",
+      translation: "большой",
+      image: "assets/img/big.jpg",
+      audioSrc: "assets/audio/big.mp3"
+    },
+    {
+      word: "small",
+      translation: "маленький",
+      image: "assets/img/small.jpg",
+      audioSrc: "assets/audio/small.mp3"
+    },
+    {
+      word: "fast",
+      translation: "быстрый",
+      image: "assets/img/fast.jpg",
+      audioSrc: "assets/audio/fast.mp3"
+    },
+    {
+      word: "slow",
+      translation: "медленный",
+      image: "assets/img/slow.jpg",
+      audioSrc: "assets/audio/slow.mp3"
+    },
+    {
+      word: "friendly",
+      translation: "дружелюбный",
+      image: "assets/img/friendly.jpg",
+      audioSrc: "assets/audio/friendly.mp3"
+    },
+    {
+      word: "unfriendly",
+      translation: "недружелюбный",
+      image: "assets/img/unfriendly.jpg",
+      audioSrc: "assets/audio/unfriendly.mp3"
+    },
+    {
+      word: "young",
+      translation: "молодой",
+      image: "assets/img/young.jpg",
+      audioSrc: "assets/audio/young.mp3"
+    },
+    {
+      word: "old",
+      translation: "старый",
+      image: "assets/img/old.jpg",
+      audioSrc: "assets/audio/old.mp3"
     }
   ],
   [

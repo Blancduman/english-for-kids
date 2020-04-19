@@ -1,3 +1,4 @@
+import { getState } from "../../store";
 import "./sidenav.css";
 
 class Sidenav {
@@ -43,8 +44,19 @@ class Sidenav {
     statistic.onclick = this.closeSidenav;
     this.sideNav.append(statistic);
 
+    this.changeColor();
     return this;
   }
+
+  changeColor = () => {
+    if (getState().play) {
+      this.sideNav.classList.remove("green");
+      this.sideNav.classList.add("greenwhatisyourproblemgreen");
+    } else {
+      this.sideNav.classList.remove("greenwhatisyourproblemgreen");
+      this.sideNav.classList.add("green");
+    }
+  };
 
   closeSidenav = e => {
     Array.from(this.sideNav.querySelectorAll("a")).forEach(a => {
