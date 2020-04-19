@@ -4,6 +4,8 @@ import "./statistics.css";
 
 class Statistics {
   table = null;
+  reset = null;
+  hard = null;
   constructor() {
     this.table = document.createElement("table");
     this.table.classList.add("statistics");
@@ -43,7 +45,21 @@ class Statistics {
       });
     }
     this.table.append(...lines);
-    return this.table;
+    this.reset = document.createElement("button");
+    this.reset.textContent = "Reset";
+    this.reset.addEventListener("click", () => {
+      localStorage.clear();
+      window.location.replace(window.location.origin);
+    });
+    this.hard = document.createElement("button");
+    this.hard.textContent = "Repeat difficult words";
+    this.hard.addEventListener("click", () => {
+      // window.location.hash.replace("complicate");
+      const tmp = document.createElement("a");
+      tmp.setAttribute("href", "/#complicate");
+      tmp.click();
+    });
+    return this;
   }
   sortTable(column, way, numberical = false) {
     var tabl, rows, switching, i, x, y, shouldSwitch;

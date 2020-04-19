@@ -10,10 +10,10 @@ class Card {
   rotator = null;
   category = "";
 
-  constructor(card, category) {
-    const { image, word, translation, audioSrc } = card;
+  constructor(card, category1) {
+    const { image, word, translation, audioSrc, category } = card;
     this.word = word;
-    this.category = category;
+    this.category = !category ? category1 : category;
     this.card = this.renderCard(image, word, translation, audioSrc);
     return this;
   }
@@ -34,8 +34,8 @@ class Card {
     this.card.classList.add(getState().play ? "game-card" : "flip-card");
 
     this.card.addEventListener("mouseover", () => {
-      // setTimeout(() => {
       clearTimeout(this.rotator);
+      // setTimeout(() => {
       flipCardInner.classList.add("rotation");
       // }, 1000);
     });

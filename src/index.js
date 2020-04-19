@@ -36,9 +36,13 @@ class EnglishForKids {
       this.renderMenu();
       if (window.location.hash === "") {
         this.renderMainPage();
-      } else if (window.location.hash.includes("category")) {
-        this.renderCategory();
       }
+      // else if (
+      //   window.location.hash.includes("category") ||
+      //   window.location.hash.includes("complicate")
+      // ) {
+      //   this.renderCategory();
+      // }
       this.playButton.checkAvaliable();
       this.saveLocal(getState());
     });
@@ -96,6 +100,7 @@ class EnglishForKids {
           link: c.replace(/\s/g, "").toLowerCase()
         };
       });
+      document.title = "Main Page";
 
       dispatch({
         type: actions.SET_CARDS,
@@ -117,6 +122,7 @@ class EnglishForKids {
       if (index === -1) {
         window.location.replace(window.location.origin);
       }
+      document.title = this.currentCategory;
       dispatch({
         type: actions.SET_CARDS,
         payload: { cards: cards[index], currentCategory: index }
@@ -129,9 +135,84 @@ class EnglishForKids {
     } else if (window.location.hash.includes("statistics")) {
       this.playButton.checkAvaliable();
       const table = new Statistics();
-      this.app.append(table);
+      this.app.append(table.table);
+      this.app.append(table.reset);
+      this.app.append(table.hard);
+      document.title = "Statistic";
+    } else if (window.location.hash.includes("complicate")) {
+      document.title = "This words are complicate for my boi, keep working!";
+      let lines = [];
+      const { statistics } = getState();
+      for (let i = 0; i < categories.length; i++) {
+        statistics[categories[i]].forEach((st, index) => {
+          const { image, audioSrc } = cards[i][index];
+          const {
+            word,
+            translation,
+            train_mode: { amount_clicks },
+            game_mode: { guessed, mistakes, tryes }
+          } = st;
+          const lCard = {
+            word,
+            translation,
+            audioSrc: audioSrc,
+            image: image,
+            category: categories[i],
+            weight: mistakes / tryes
+          };
+          lines.push(lCard);
+        });
+      }
+      lines = this.sortTable(lines);
+      if (lines.length > 8) {
+        lines.length = 8;
+      }
+      dispatch({
+        type: actions.SET_CARDS,
+        payload: { cards: lines, currentCategory: -1 }
+      });
+      dispatch({
+        type: actions.ABBONDED_GAME
+      });
+      this.renderCategory();
     }
   };
+
+  sortTable(tabl) {
+    var switching, i, x, y, shouldSwitch;
+    switching = true;
+    /*Make a loop that will continue until
+    no switching has been done:*/
+    while (switching) {
+      //start by saying: no switching is done:
+      switching = false;
+      /*Loop through all table rows (except the
+        first, which contains table headers):*/
+      for (i = 1; i < tabl.length - 1; i++) {
+        //start by saying there should be no switching:
+        shouldSwitch = false;
+        /*Get the two elements you want to compare,
+            one from current row and one from the next:*/
+        x = tabl[i].weight;
+        y = tabl[i + 1].weight;
+        //check if the two rows should switch place:
+        if (x > y) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+      if (shouldSwitch) {
+        /*If a switch has been marked, make the switch
+            and mark that a switch has been done:*/
+        // tabl[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        const tmp = tabl[i];
+        tabl[i] = tabl[i + 1];
+        tabl[i + 1] = tmp;
+        switching = true;
+      }
+    }
+    return tabl;
+  }
 
   onChangeToggle = value => {
     dispatch({ type: actions.CHANGE_MODE, payload: value });
