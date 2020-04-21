@@ -11,6 +11,9 @@
   border: 1px solid #ddd;
   padding: 8px;
 }
+.statistics th {
+  cursor: pointer;
+}
 .statistics.play th {
   background: linear-gradient(40deg, #ffd86f, #fc6262);
 }

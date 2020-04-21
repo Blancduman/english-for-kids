@@ -4,8 +4,6 @@ import "./playbutton.css";
 import repeat from "../../assets/img/repeat.svg";
 import victoryImg from "../../assets/img/victroyDrake.png";
 import defeatImg from "../../assets/img/defeatDrake.png";
-// import victorySoundEffect from "../../assets/audio/perfect.mp3";
-// import defeatSoundEffect from "../../assets/audio/bruh.mp3";
 
 class PlayButton {
   button = null;
@@ -53,9 +51,7 @@ class PlayButton {
 
   startGame = () => {
     dispatch({ type: actions.START_GAME, payload: this.nextGuess });
-    // this.audio = new Audio(getState().currentGame.currentCard.audioSrc);
     this.nextGuess(getState().currentGame.currentCard);
-    // this.replayAudio();
 
     this.button.removeEventListener("click", this.startGame);
     this.button.addEventListener("click", this.replayAudio);
@@ -65,15 +61,11 @@ class PlayButton {
     if (!card) {
       var modal = document.getElementById("myModal");
 
-      // Get the button that opens the modal
       var result = document.getElementById("result");
       result.innerHTML = "";
-      // result.textContent = `correct: ${getState().currentGame.correct}
-      // incorrect: ${getState().currentGame.incorrect}`;
       if (getState().currentGame.incorrect === 0) {
         new Audio("assets/audio/perfect.mp3").play();
         const vicotryImage = document.createElement("img");
-        // vicotryImage.setAttribute("width", "100%");
         vicotryImage.setAttribute("src", victoryImg);
         result.append(vicotryImage);
         const spanchik = document.createElement("span");
@@ -83,7 +75,6 @@ class PlayButton {
       } else {
         new Audio("assets/audio/bruh.mp3").play();
         const defeatImage = document.createElement("img");
-        // defeatImage.setAttribute("width", "100%");
         defeatImage.setAttribute("src", defeatImg);
         result.append(defeatImage);
         const spanchik = document.createElement("span");
@@ -94,16 +85,13 @@ class PlayButton {
         result.append(spanchik);
       }
 
-      // Get the <span> element that closes the modal
       var span = document.getElementsByClassName("close")[0];
       modal.style.display = "block";
-      // When the user clicks on <span> (x), close the modal
       span.onclick = function() {
         modal.style.display = "none";
         window.location = window.location.origin;
       };
 
-      // When the user clicks anywhere outside of the modal, close it
       window.onclick = event => {
         if (event.target == modal) {
           modal.style.display = "none";

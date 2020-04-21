@@ -31,7 +31,6 @@ class Category {
     const a = document.createElement("a");
     a.classList.add("clickable-category");
     a.setAttribute("href", `#category/${link}`);
-    // a.append(holder);
 
     const card = document.createElement("div");
     card.classList.add("category");
@@ -55,15 +54,7 @@ class Category {
     return a;
   }
 
-  switchMode() {
-    // if (gameMode) {
-    //   this.card.classList.remove("game-card");
-    //   this.card.classList.add("card");
-    // } else {
-    //   this.card.classList.remove("card");
-    //   this.card.classList.add("game-card");
-    // }
-  }
+  switchMode() {}
 }
 
 export default Category;

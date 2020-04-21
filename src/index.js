@@ -21,13 +21,11 @@ class EnglishForKids {
   toggle = null;
   deck = null;
   currentCategory = "";
-  // playButtonHTML = null;
   playButton = null;
   table = null;
 
   constructor() {
     this.app = document.querySelector(".app");
-    // this.playButtonHTML = document.querySelector(".play-button");
     this.playButton = new PlayButton(this.playButtonHTML);
     this.onRouteChange();
     this.renderMenu();
@@ -37,8 +35,7 @@ class EnglishForKids {
       this.renderMenu();
       if (window.location.hash === "") {
         this.renderMainPage();
-      }
-      else if (
+      } else if (
         window.location.hash.includes("category") ||
         window.location.hash.includes("complicate")
       ) {
@@ -53,9 +50,6 @@ class EnglishForKids {
   }
 
   saveLocal(obj) {
-    // Object.keys(obj).forEach(k => {
-    //   localStorage.setItem(k, obj[k]);
-    // });
     localStorage.setItem("play", JSON.stringify(obj.play));
     localStorage.setItem("gameMode", JSON.stringify(obj.gameMode));
     localStorage.setItem("statistics", JSON.stringify(obj.statistics));
@@ -85,11 +79,6 @@ class EnglishForKids {
       starContainer.append(...new Star(incorrect));
     }
   };
-
-  // renderPlayButton = () => {
-  //   this.playButtonHTML.innerHTML = "";
-  //   this.playButtonHTML.append(this.playButton.button);
-  // };
 
   onRouteChange = () => {
     this.app.innerHTML = "";
@@ -182,30 +171,18 @@ class EnglishForKids {
   sortTable(tabl) {
     var switching, i, x, y, shouldSwitch;
     switching = true;
-    /*Make a loop that will continue until
-    no switching has been done:*/
     while (switching) {
-      //start by saying: no switching is done:
       switching = false;
-      /*Loop through all table rows (except the
-        first, which contains table headers):*/
       for (i = 1; i < tabl.length - 1; i++) {
-        //start by saying there should be no switching:
         shouldSwitch = false;
-        /*Get the two elements you want to compare,
-            one from current row and one from the next:*/
         x = tabl[i].weight;
         y = tabl[i + 1].weight;
-        //check if the two rows should switch place:
         if (x > y) {
           shouldSwitch = true;
           break;
         }
       }
       if (shouldSwitch) {
-        /*If a switch has been marked, make the switch
-            and mark that a switch has been done:*/
-        // tabl[i].parentNode.insertBefore(rows[i + 1], rows[i]);
         const tmp = tabl[i];
         tabl[i] = tabl[i + 1];
         tabl[i + 1] = tmp;

@@ -35,9 +35,7 @@ class Card {
 
     this.card.addEventListener("mouseover", () => {
       clearTimeout(this.rotator);
-      // setTimeout(() => {
       flipCardInner.classList.add("rotation");
-      // }, 1000);
     });
 
     this.card.addEventListener("mouseleave", () => {
@@ -69,7 +67,6 @@ class Card {
 
     const flipCardInner = document.createElement("div");
     flipCardInner.classList.add("flip-card-inner");
-    // flipCardInner.addEventListener('mouseover')
     this.card.append(flipCardInner);
 
     const flipCardFront = document.createElement("div");

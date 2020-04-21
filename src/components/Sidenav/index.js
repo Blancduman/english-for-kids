@@ -54,7 +54,9 @@ class Sidenav {
     const category = window.location.hash.split("/").pop();
     if (category === "") {
       as[0].classList.add("active");
-    } else if (as[as.length - 1].getAttribute("href").slice(2) === category) {
+    } else if (
+      as[as.length - 1].getAttribute("href").slice(2) === category.slice(1)
+    ) {
       as[as.length - 1].classList.add("active");
     } else {
       for (let i = 1; i < as.length - 1; i++) {
@@ -78,11 +80,6 @@ class Sidenav {
   };
 
   closeSidenav = e => {
-    // Array.from(this.sideNav.querySelectorAll("a")).forEach(a => {
-    //   if (e.target === a) {
-    //     a.classList.add("active");
-    //   } else a.classList.remove("active");
-    // });
     this.sideNav.style.width = "0";
     this.buttonOpen.classList.remove("sidenav__close-btn");
     this.buttonOpen.classList.add("sidenav__open-btn");

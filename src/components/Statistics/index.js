@@ -62,7 +62,6 @@ class Statistics {
     this.hard.classList.add("statistic-button");
     this.hard.textContent = "Repeat difficult words";
     this.hard.addEventListener("click", () => {
-      // window.location.hash.replace("complicate");
       const tmp = document.createElement("a");
       tmp.setAttribute("href", "/#complicate");
       tmp.click();
@@ -93,22 +92,13 @@ class Statistics {
     var tabl, rows, switching, i, x, y, shouldSwitch;
     tabl = document.querySelector(".statistics");
     switching = true;
-    /*Make a loop that will continue until
-    no switching has been done:*/
     while (switching) {
-      //start by saying: no switching is done:
       switching = false;
       rows = tabl.rows;
-      /*Loop through all table rows (except the
-        first, which contains table headers):*/
       for (i = 1; i < rows.length - 1; i++) {
-        //start by saying there should be no switching:
         shouldSwitch = false;
-        /*Get the two elements you want to compare,
-            one from current row and one from the next:*/
         x = rows[i].getElementsByTagName("TD")[column];
         y = rows[i + 1].getElementsByTagName("TD")[column];
-        //check if the two rows should switch place:
         if (numberical) {
           if (Number(x.innerHTML) > Number(y.innerHTML) && way === "a") {
             shouldSwitch = true;
@@ -123,7 +113,6 @@ class Statistics {
             x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase() &&
             way === "a"
           ) {
-            //if so, mark as a switch and break the loop:
             shouldSwitch = true;
             break;
           } else if (
