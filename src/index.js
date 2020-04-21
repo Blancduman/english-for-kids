@@ -38,12 +38,12 @@ class EnglishForKids {
       if (window.location.hash === "") {
         this.renderMainPage();
       }
-      // else if (
-      //   window.location.hash.includes("category") ||
-      //   window.location.hash.includes("complicate")
-      // ) {
-      //   this.renderCategory();
-      // }
+      else if (
+        window.location.hash.includes("category") ||
+        window.location.hash.includes("complicate")
+      ) {
+        this.renderCategory();
+      }
       this.playButton.checkAvaliable();
       this.saveLocal(getState());
     });
