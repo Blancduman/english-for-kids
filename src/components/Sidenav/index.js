@@ -45,6 +45,7 @@ class Sidenav {
     this.sideNav.append(statistic);
 
     this.changeColor();
+    this.startUp();
     return this;
   }
 
@@ -67,6 +68,15 @@ class Sidenav {
         }
       }
     }
+  };
+
+  startUp = () => {
+    window.addEventListener("click", e => {
+      if (this.sideNav === e.target || this.buttonOpen === e.target) {
+      } else {
+        this.closeSidenav();
+      }
+    });
   };
 
   changeColor = () => {
