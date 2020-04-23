@@ -35,7 +35,8 @@ class Statistics {
         const tdMistakes = document.createElement("td");
         tdMistakes.textContent = mistakes;
         const tdProcents = document.createElement("td");
-        tdProcents.textContent = mistakes === tryes ? "" : mistakes / tryes;
+        tdProcents.textContent =
+          mistakes === tryes ? "" : (mistakes / tryes).toFixed(1);
         tr.append(
           tdWord,
           tdTrainslation,

@@ -72,8 +72,7 @@ class Sidenav {
 
   startUp = () => {
     window.addEventListener("click", e => {
-      if (this.sideNav === e.target || this.buttonOpen === e.target) {
-      } else {
+      if (!(this.sideNav === e.target || this.buttonOpen === e.target)) {
         this.closeSidenav();
       }
     });
