@@ -1,21 +1,27 @@
+import Base from "../../helpers/baseClass";
 import star from "../../assets/img/star.svg";
 import starCooler from "../../assets/img/star-win.svg";
 
-class Star {
-  stars = [];
-  constructor(amount, type) {
-    this.renderStars(amount, type === "win" ? starCooler : star);
-    return this.stars;
+class Star extends Base {
+  container;
+
+  constructor() {
+    super();
+
+    this.container = this.createElement("div", { class: "stars" });
+
+    return this;
   }
 
-  renderStars(amount, starch) {
-    for (let i = 0; i < amount; i++) {
-      const img = document.createElement("img");
-      img.setAttribute("src", starch);
-      img.setAttribute("alt", "STAR");
-      img.setAttribute("width", "60px");
-      this.stars.push(img);
-    }
+  addStar(type) {
+    this.appendChildren(
+      this.container,
+      this.createElement("img", {
+        src: type === "win" ? starCooler : star,
+        alt: "STAR",
+        width: "50px"
+      })
+    );
   }
 }
 

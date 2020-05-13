@@ -1,123 +1,96 @@
-import { getState, dispatch } from "../../store";
-import { actions } from "../../constants";
-import "./card.css";
+import { getState, dispatch } from '../../store';
+import { actions } from '../../constants';
+import Base from '../../helpers/baseClass';
+import './card.css';
 
-class Card {
-  card = null;
-  audio = null;
-  img = null;
-  word = "";
-  rotator = null;
-  category = "";
+export default class Card extends Base {
+  audio;
+  front;
+  back;
+  holder;
+  img;
+  rotationTimer;
+  card;
+  word;
+  category;
+  renderWord = (word) => this.createElement('h3', {}, {}, word);
+  renderCard = (className, events = {}) => this.createElement('div', { class: className }, events);
+  playAudio = () => this.audio.play();
 
-  constructor(card, category1) {
-    const { image, word, translation, audioSrc, category } = card;
-    this.word = word;
-    this.category = !category ? category1 : category;
-    this.card = this.renderCard(image, word, translation, audioSrc);
-    return this;
-  }
-
-  playAudio = () => {
-    this.audio.volume = 0.5;
-    this.audio.play();
-    dispatch({
-      type: actions.STATISTIC_PLUS_CLICKED,
-      payload: { word: this.word, category: this.category }
-    });
+  onMouseOver = () => {
+    if (!getState().play) {
+      clearTimeout(this.rotationTimer);
+      this.addClass(this.holder, 'rotation');
+    }
   };
 
-  renderCard(image, word, translation, audioSrc) {
-    this.card = document.createElement("div");
-    this.audio = new Audio(audioSrc);
-
-    this.card.classList.add(getState().play ? "game-card" : "flip-card");
-
-    this.card.addEventListener("mouseover", () => {
-      clearTimeout(this.rotator);
-      flipCardInner.classList.add("rotation");
-    });
-
-    this.card.addEventListener("mouseleave", () => {
-      this.rotator = setTimeout(() => {
-        flipCardInner.classList.remove("rotation");
-      }, 800);
-    });
-
-    this.img = document.createElement("img");
-    this.img.setAttribute("alt", word);
-    this.img.setAttribute("src", image);
-    this.img.classList.add("card__image");
-
-    this.card.append(this.img);
-
+  onMouseLeave = () => {
     if (!getState().play) {
-      this.card.addEventListener("click", this.playAudio);
+      this.rotationTimer = setTimeout(() => {
+        this.removeClass(this.holder, 'rotation');
+      }, 800);
     }
-    if (getState().gameMode) {
-      this.card.addEventListener("click", this.onClick);
-      const index = getState().currentGame.answers.findIndex(a => a === word);
-      if (index !== -1) {
-        this.img.classList.add("correct");
-        this.card.removeEventListener("click", this.onClick);
-      }
-    } else {
-      this.img.classList.remove("correct");
-    }
-
-    const flipCardInner = document.createElement("div");
-    flipCardInner.classList.add("flip-card-inner");
-    this.card.append(flipCardInner);
-
-    const flipCardFront = document.createElement("div");
-    flipCardFront.classList.add("flip-card-front");
-    flipCardInner.append(flipCardFront);
-
-    const engword = document.createElement("h3");
-    engword.textContent = word;
-    flipCardFront.append(engword);
-
-    const flipCardBack = document.createElement("div");
-    flipCardBack.classList.add("flip-card-back");
-    flipCardInner.append(flipCardBack);
-
-    const rusword = document.createElement("h3");
-    rusword.textContent = translation;
-    flipCardBack.append(rusword);
-
-    return this.card;
-  }
+  };
 
   onClick = () => {
-    if (!getState().gameFinish) {
-      if (this.word === getState().currentGame.currentCard.word) {
-        dispatch({
-          type: actions.CORRECT_ANSWER,
-          payload: { word: this.word, category: this.category }
-        });
-        this.img.classList.add("correct");
-      } else {
-        dispatch({
-          type: actions.INCORRECT_ANSWER,
-          payload: { word: this.word, category: this.category }
-        });
+    if (!getState().play) {
+      this.playAudio().then();
+      dispatch({
+        type: actions.STATISTIC_PLUS_CLICKED,
+        payload: {
+          word: this.word,
+          category: this.category ? this.category.link : null,
+        },
+      });
+    } else if (!getState().gameFinish && getState().gameMode) {
+      if (!this.img.classList.contains('correct')) {
+        if (this.checkCard(this.word)) this.addClass(this.img, 'correct');
       }
     }
   };
 
-  switchMode = () => {
-    if (getState().play) {
-      this.card.classList.remove("flip-card");
-      this.card.classList.add("game-card");
-      this.card.removeEventListener("click", this.playAudio);
-      this.card.addEventListener("click", this.onClick);
-    } else {
-      this.card.classList.remove("game-card");
-      this.card.classList.add("flip-card");
-      this.card.removeEventListener("click", this.onClick);
-      this.card.addEventListener("click", this.playAudio);
-    }
-  };
-}
+  constructor({
+    image, word, translation, audioSrc, category,
+  }, checkCard) {
+    super();
+    this.audio = new Audio(audioSrc);
+    this.front = this.appendChildren(
+      this.renderCard('front'),
+      this.renderWord(word),
+    );
+    this.back = this.appendChildren(
+      this.renderCard('back'),
+      this.renderWord(translation),
+    );
+    this.holder = this.appendChildren(
+      this.renderCard('holder', {
+        mouseover: this.onMouseOver,
+        mouseleave: this.onMouseLeave,
+      }),
+      this.front,
+      this.back,
+    );
+    this.img = this.createElement('img', {
+      alt: word,
+      src: image,
+      class: 'card__image',
+    });
 
-export default Card;
+    this.card = this.createElement(
+      'div',
+      {
+        class: 'card',
+      },
+      {
+        click: this.onClick,
+      },
+      this.img,
+      this.holder,
+    );
+    this.word = word;
+    this.category = category;
+    this.checkCard = checkCard;
+
+    return this;
+  }
+}

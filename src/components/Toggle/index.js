@@ -1,39 +1,57 @@
-import { game_modes } from "../../constants";
-import { getState } from "../../store";
-import "./toggle.css";
-class Toggle {
-  toggle = null;
-  mode = false;
+import { getState, dispatch } from '../../store';
+import { actions } from '../../constants';
+import Base from '../../helpers/baseClass';
+import './toggle.css';
 
-  constructor(checkedValue, onChangeToggle) {
-    const label = document.createElement("label");
-    label.classList.add("toggle-switch", "large");
+export default class Toggle extends Base {
+  toggle;
+  input;
 
-    this.mode = document.createElement("input");
-    this.mode.setAttribute("type", "checkbox");
-    this.mode.checked = getState().play;
-    label.addEventListener("click", () => {
-      this.mode.checked = !this.mode.checked;
-      onChangeToggle(this.mode.checked);
-    });
-    label.append(this.mode);
+  modeChanger = (mode) => {
+    if (mode) {
+      document.body.classList.add('game');
+    } else {
+      document.body.classList.remove('game');
+    }
+  };
 
-    const optionContainer = document.createElement("span");
-    label.append(optionContainer);
+  onChangeToggle = () => {
+    dispatch({ type: actions.CHANGE_MODE, payload: !getState().play });
+    this.modeChanger(getState().play);
 
-    const first = document.createElement("span");
-    first.innerText = game_modes.TRAINING_MODE;
-    optionContainer.append(first);
+    this.input.checked = getState().play;
+  };
+  constructor() {
+    super();
+    this.modeChanger(getState().play);
 
-    const second = document.createElement("span");
-    second.innerText = game_modes.GAME_MODE;
-    optionContainer.append(second);
+    const on = this.createElement('span', { class: 'play' }, {}, 'PLAY');
+    const off = this.createElement('span', { class: 'train' }, {}, 'TRAIN');
+    const slider = this.createElement(
+      'div',
+      { class: 'slider round' },
+      {},
+      on,
+      off,
+    );
+    this.input = this.createElement(
+      'input',
+      {
+        type: 'checkbox',
+        id: 'togBtn',
+        checked: getState().play,
+      },
+      { click: this.onChangeToggle },
+    );
 
-    const a = document.createElement("a");
-    label.append(a);
+    this.toggle = this.createElement(
+      'label',
+      { class: 'switch' },
+      {},
+      this.input,
+      slider,
+    );
 
-    this.toggle = label;
+    return this;
   }
 }
-
-export default Toggle;

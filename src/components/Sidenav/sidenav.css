@@ -9,12 +9,10 @@
   transition: 0.5s;
   padding-top: 60px;
   font-family: Helvetica, sans-serif;
-}
-
-.green {
   background: linear-gradient(40deg, #00bf82, #0099ae);
 }
-.greenwhatisyourproblemgreen {
+
+.game .sidenav {
   background: linear-gradient(40deg, #ffd86f, #fc6262);
 }
 
@@ -27,9 +25,6 @@
   transition: 0.3s;
   width: 160px;
   height: 40px;
-  /* border-bottom-width: 0;
-  border-bottom-color: #f1f1f1;
-  border-bottom-style: solid; */
 }
 .sidenav a:after {
   content: "";
@@ -42,7 +37,6 @@
 
 .sidenav a:hover {
   color: #fff;
-  /* border-bottom-width: 1px; */
 }
 
 .sidenav a:hover:after {
@@ -69,8 +63,6 @@
 .sidenav__close-btn,
 .sidenav__open-btn {
   z-index: 10;
-  /* position: absolute; */
-  /* left: 210px; */
   color: #818181;
 }
 
@@ -97,24 +89,4 @@
 
 a.active {
   color: #ffd86f;
-}
-
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-}
-
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-}
-
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-}
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-}
-
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
 }

@@ -13,12 +13,13 @@
 }
 .statistics th {
   cursor: pointer;
+  user-select: none;
 }
-.statistics.play th {
-  background: linear-gradient(40deg, #ffd86f, #fc6262);
-}
-.statistics.notplay th {
+.statistics th {
   background: linear-gradient(40deg, #00bf82, #0099ae);
+}
+.game .statistics th {
+  background: linear-gradient(40deg, #ffd86f, #fc6262);
 }
 
 .statistics tr:nth-child(even) {
@@ -52,14 +53,11 @@
   -webkit-transition: 0.3s;
   transition: 0.3s;
   cursor: pointer;
-}
-
-.button-play {
-  background: linear-gradient(40deg, #ffd86f, #fc6262);
-}
-
-.button-notplay {
   background: linear-gradient(40deg, #00bf82, #0099ae);
+}
+
+.game .statistic-button {
+  background: linear-gradient(40deg, #ffd86f, #fc6262);
 }
 
 .button-container {
@@ -68,28 +66,14 @@
   justify-content: space-between;
 }
 
-/* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .statistic-button {
     width: 90%;
   }
 }
 
-/* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
   .statistic-button {
     width: 90%;
   }
-}
-
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-}
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-}
-
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
 }
