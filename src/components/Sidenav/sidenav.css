@@ -1,0 +1,92 @@
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  font-family: Helvetica, sans-serif;
+  background: linear-gradient(40deg, #00bf82, #0099ae);
+}
+
+.game .sidenav {
+  background: linear-gradient(40deg, #ffd86f, #fc6262);
+}
+
+.sidenav a {
+  margin: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #f1f1f1;
+  display: block;
+  transition: 0.3s;
+  width: 160px;
+  height: 40px;
+}
+.sidenav a:after {
+  content: "";
+  width: 0;
+  height: 2px;
+  background-color: #f1f1f1;
+  transition: 0.3s linear;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #fff;
+}
+
+.sidenav a:hover:after {
+  content: "";
+  width: 160px;
+  height: 2px;
+  background-color: #fff;
+  transition: 0.3s linear;
+  display: block;
+}
+
+.sidenav a.active:hover {
+  color: #ffd86f;
+}
+.sidenav a.active:after {
+  content: "";
+  width: 160px;
+  height: 2px;
+  background-color: #ffd86f;
+  transition: 0.3s linear;
+  display: block;
+}
+
+.sidenav__close-btn,
+.sidenav__open-btn {
+  z-index: 10;
+  color: #818181;
+}
+
+.sidenav__close-btn:before {
+  content: "\2613";
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.sidenav__open-btn:before {
+  content: "\2630";
+  cursor: pointer;
+  font-size: 25px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+
+a.active {
+  color: #ffd86f;
+}
